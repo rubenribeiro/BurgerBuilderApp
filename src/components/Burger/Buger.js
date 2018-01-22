@@ -14,12 +14,21 @@ const burger = (props) => {
      as the value. Then for each array of specific ingredients, 
      we return the JSX containing the BurgerIngredient component.*/
     
-     const trasformedIngredients = Object.keys(props.ingredients)
+     let trasformedIngredients = Object.keys(props.ingredients)
                  .map(igKey => { 
                      return [...Array(props.ingredients[igKey])].map((_, i) => {
                           return <BurgerIngredient key={igKey + i} type={igKey} />
                  });
-          });   
+          })
+          .reduce((arr, el) => {
+              return arr.concat(el);
+          }, []);
+    
+    if(trasformedIngredients.length === 0){
+        trasformedIngredients = <p>Please start adding ingredients!</p>
+    }
+          
+    
     
     return (
         <div className={classes.Burger}>

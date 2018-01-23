@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Utility from '../../../hoc/Utility';
+import Button from '../../UI/Button/Button';
 
 const orderSummary = (props) => {
     /* expected Output from ingredient Summary Object
@@ -22,6 +23,8 @@ const orderSummary = (props) => {
                 {ingredientSummary}
            </ul>
            <p>Continue to Checkout?</p>
+           <Button btnType="Danger" clicked={props.purchaseCancelled}>CANCEL</Button>
+           <Button btnType="Success" clicked={props.purchaseContinued}>CONTINUE</Button>
        </Utility>
    );
 

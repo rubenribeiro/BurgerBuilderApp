@@ -1,37 +1,41 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
+
 import Modal from '../../components/UI/Modal/Modal';
 import Utility from '../Utility/Utility';
 
-const withErrorHandler = (WrappedComponent, axios) => {
-   return class extends Component {
-       state = {
-           error: null
-       }
-       componentDidMount () {
-           axios.interceptors.request.use( req => {
-               this.setState({error: null });
-           });
-           axios.interceptors.response.use(null, error => {
-                 this.setState({error: error})
-           });
-       }
-         
-       errorConfirmedHandler = () => {
-           this.setState({error: null})
-       }
+const withErrorHandler = ( WrappedComponent, axios ) => {
+    return class extends Component {
+        state = {
+            error: null
+        }
 
-       render () {
-           return (
+        componentWillMount () {
+            axios.interceptors.request.use(req => {
+                this.setState({error: null});
+                return req;
+            });
+            axios.interceptors.response.use(res => res, error => {
+                this.setState({error: error});
+            });
+        }
+
+        errorConfirmedHandler = () => {
+            this.setState({error: null});
+        }
+
+        render () {
+            return (
                 <Utility>
-                <Modal show={this.state.error}
-                       clicked={this.errorConfirmedHandler}>
-                       {this.state.error.message}
-                </Modal>
-                <WrappedComponent {...this.props} />
-            </Utility>
-           );
-       }
-   } 
+                    <Modal 
+                        show={this.state.error}
+                        modalClosed={this.errorConfirmedHandler}>
+                        {this.state.error ? this.state.error.message : null}
+                    </Modal>
+                    <WrappedComponent {...this.props} />
+                </Utility>
+            );
+        }
+    }
 }
 
 export default withErrorHandler;

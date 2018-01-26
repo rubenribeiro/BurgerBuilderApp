@@ -42,7 +42,7 @@ class ContactData extends Component {
             .catch(error => {
                 //Stop loading spinner
                 // Purchasing false to close the modal
-                this.setState({loading: false});
+                this.setState({loading: false});git 
             });
 
             
